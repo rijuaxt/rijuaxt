@@ -4,6 +4,53 @@
 // Leave the recording at its full length: 5 min 30 sec or longer is supported.
 const AUDIO_URL = '';
 const TRACK_TOKEN = 'my-athan-v1';
+const PRAYERS = [
+    { id: 'FAJR', name: 'Fajr', aliases: ['fajar', 'fajir'] },
+    { id: 'ZUHR', name: 'Zuhr', aliases: ['dhuhr', 'zuhur', 'zohor', 'zuhoor', 'zuhuor'] },
+    { id: 'ASR', name: 'Asr', aliases: ['asar', 'asor'] },
+    { id: 'MAGHRIB', name: 'Maghrib', aliases: ['magrib', 'maghrib prayer'] },
+    { id: 'ISHA', name: 'Isha', aliases: ['esha', 'ishaa'] }
+];
+
+function findPrayer(value) {
+    if (typeof value !== 'string') return null;
+    const normalized = value.trim().toLowerCase();
+    return PRAYERS.find(prayer => [prayer.id, prayer.name, ...prayer.aliases]
+        .some(alias => alias.toLowerCase() === normalized)) || null;
+}
+
+function resolvePrayer(slot) {
+    const candidates = [];
+    for (const authority of slot?.resolutions?.resolutionsPerAuthority || []) {
+        if (authority.status?.code !== 'ER_SUCCESS_MATCH') continue;
+        for (const entry of authority.values || []) {
+            const prayer = findPrayer(entry.value?.id) || findPrayer(entry.value?.name);
+            if (prayer && !candidates.includes(prayer)) candidates.push(prayer);
+        }
+    }
+    // Do not choose a prayer when entity resolution is ambiguous.
+    if (candidates.length > 1) return null;
+    return candidates[0] || findPrayer(slot?.value);
+}
+
+function prayerSettings() {
+    const response = say('Create one routine for each prayer in the Alexa app. ' +
+        'Open More, then Routines, and select the prayer. ' +
+        'Edit its name to rename it, or edit its Schedule event to change the time, then save. ' +
+        'My Athan does not change routine times by voice or update them automatically.');
+    response.response.card = {
+        type: 'Simple',
+        title: 'Prayer names and times',
+        content: 'Create five routines: Fajar, Zuhur, Asar, Magrib, and Isha.\n' +
+            'Alexa app > More > Routines > select a prayer.\n' +
+            'Rename: edit the routine name and save.\n' +
+            'Time: edit the Schedule event, choose the new time and repeat days, and save.\n' +
+            'Use a Custom action such as: ask my athan to play fajr.\n' +
+            'Renaming a routine does not change its Custom action.\n' +
+            'Times stay fixed until you edit them; daily prayer times are not calculated.'
+    };
+    return response;
+}
 
 function reply(response = {}) {
     return { version: '1.0', response };
@@ -102,7 +149,32 @@ exports.handler = async function handler(event) {
 
     if (type === 'IntentRequest') {
         switch (request.intent?.name) {
-            case 'PlayAthanIntent':
+            case 'PlayAthanIntent': {
+                const slot = request.intent.slots?.prayer;
+                const prayer = resolvePrayer(slot);
+                if ((slot?.value || slot?.resolutions) && !prayer) {
+                    return say('Please choose Fajr, Zuhr, Asr, Maghrib, or Isha.');
+                }
+                const response = play(event);
+                // Keep the full recording and silent start for every prayer.
+                // A card identifies the prayer without speaking over the audio.
+                if (prayer && response.response.directives?.some(
+                    directive => directive.type === 'AudioPlayer.Play')) {
+                    response.response.card = {
+                        type: 'Simple',
+                        title: `${prayer.name} Athan`,
+                        content: 'Playing your complete Athan recording. ' +
+                            'Edit the name and time of this prayer in Alexa app > More > Routines.'
+                    };
+                }
+                return response;
+            }
+            case 'PrayerSettingsIntent':
+                return prayerSettings();
+            case 'ListPrayersIntent':
+                return say('You can play Fajr, Zuhr, Asr, Maghrib, and Isha. ' +
+                    'For example, say Alexa, ask My Athan to play Fajr. ' +
+                    'Give each prayer its own routine in the Alexa app to choose its name and time.');
             case 'AMAZON.StartOverIntent':
             case 'AMAZON.RepeatIntent':
             case 'AMAZON.PreviousIntent':
@@ -115,7 +187,10 @@ exports.handler = async function handler(event) {
             case 'AMAZON.NextIntent':
                 return stop(event);
             case 'AMAZON.HelpIntent':
-                return say('Say Alexa, open My Athan, to play the full recording. Say Alexa, stop, to stop playback.');
+                return say('Say Alexa, open My Athan, to play the full recording, ' +
+                    'or say Alexa, ask My Athan to play Fajr, Zuhr, Asr, Maghrib, or Isha. ' +
+                    'Edit each prayer routine name and scheduled time in the Alexa app under More, Routines. ' +
+                    'Say Alexa, stop, to stop playback.');
             case 'AMAZON.LoopOnIntent':
             case 'AMAZON.LoopOffIntent':
             case 'AMAZON.ShuffleOnIntent':

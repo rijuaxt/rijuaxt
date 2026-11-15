@@ -19,20 +19,27 @@
       "isAvailableWorldwide": true,
       "locales": {
         "en-US": {
-          "description": "Play one complete Athan recording on an Echo. Fixed playback times can be set and changed in Alexa Routines.",
+          "description": "Play your full Athan recording for Fajr, Zuhr, Asr, Maghrib, or Isha. Create a separate Alexa Routine for each prayer, then edit its name and time in the Alexa app as prayer times change. Times are entered manually and do not update automatically.",
           "examplePhrases": [
             "Alexa, open my athan",
-            "Alexa, ask my athan to play athan"
+            "Alexa, ask my athan to play athan",
+            "Alexa, ask my athan to play fajr"
           ],
           "keywords": [
             "athan",
-            "adhan"
+            "adhan",
+            "prayer",
+            "fajr",
+            "zuhr",
+            "asr",
+            "maghrib",
+            "isha"
           ],
           "name": "My Athan",
           "summary": "Play your complete Athan recording."
         }
       },
-      "testingInstructions": "Configure AUDIO_URL in lambda/index.js with a permanent direct HTTPS audio URL. Deploy and enable Development testing. Test launch, pause, resume, stop, and a full recording on an Echo. No audio recording is included."
+      "testingInstructions": "Configure AUDIO_URL in lambda/index.js with a permanent direct HTTPS audio URL. Deploy and build the en-US model, then enable Development testing. On an Echo test launch, named prayer commands (including fajar, zuhur, asar, and magrib), pause, resume, stop, and a full recording. Test five manually created Alexa Routines; rename one and edit its scheduled time in the Alexa app. Confirm prayer-settings requests explain the app controls without claiming to change or calculate a schedule. No audio recording is included."
     }
   }
 }

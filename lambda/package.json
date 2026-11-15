@@ -1,8 +1,11 @@
 {
   "name": "my-athan",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
-  "description": "Single-recording Alexa Athan player",
+  "description": "Full-recording Alexa Athan player with five named prayers and Alexa Routine setup guidance",
   "main": "index.js",
-  "dependencies": {}
+  "dependencies": {},
+  "scripts": {
+    "test": "node --test ../tests/athan.test.js"
+  }
 }

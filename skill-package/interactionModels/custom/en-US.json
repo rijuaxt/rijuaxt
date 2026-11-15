@@ -5,25 +5,172 @@
       "intents": [
         {
           "name": "PlayAthanIntent",
-          "slots": [],
-          "samples": ["play athan", "play the athan", "play adhan", "start the athan"]
+          "slots": [
+            {
+              "name": "prayer",
+              "type": "PRAYER_NAME"
+            }
+          ],
+          "samples": [
+            "play athan",
+            "play the athan",
+            "play adhan",
+            "start the athan",
+            "play {prayer}",
+            "play {prayer} athan",
+            "play the {prayer} athan",
+            "play {prayer} adhan",
+            "play athan for {prayer}",
+            "play adhan for {prayer}",
+            "start {prayer} athan"
+          ]
         },
-        {"name": "AMAZON.CancelIntent", "samples": []},
-        {"name": "AMAZON.HelpIntent", "samples": []},
-        {"name": "AMAZON.StopIntent", "samples": []},
-        {"name": "AMAZON.PauseIntent", "samples": []},
-        {"name": "AMAZON.ResumeIntent", "samples": []},
-        {"name": "AMAZON.NextIntent", "samples": []},
-        {"name": "AMAZON.PreviousIntent", "samples": []},
-        {"name": "AMAZON.StartOverIntent", "samples": []},
-        {"name": "AMAZON.RepeatIntent", "samples": []},
-        {"name": "AMAZON.LoopOnIntent", "samples": []},
-        {"name": "AMAZON.LoopOffIntent", "samples": []},
-        {"name": "AMAZON.ShuffleOnIntent", "samples": []},
-        {"name": "AMAZON.ShuffleOffIntent", "samples": []},
-        {"name": "AMAZON.FallbackIntent", "samples": []}
+        {
+          "name": "PrayerSettingsIntent",
+          "slots": [
+            {
+              "name": "prayer",
+              "type": "PRAYER_NAME"
+            }
+          ],
+          "samples": [
+            "how do I change prayer times",
+            "how do I edit prayer times",
+            "how do I rename athan",
+            "how do I rename a prayer",
+            "how do I change {prayer} time",
+            "how do I rename {prayer}",
+            "prayer settings",
+            "schedule settings"
+          ]
+        },
+        {
+          "name": "ListPrayersIntent",
+          "slots": [],
+          "samples": [
+            "list prayers",
+            "list prayer names",
+            "which prayers can I play",
+            "what prayers are available"
+          ]
+        },
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.PauseIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ResumeIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NextIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.PreviousIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StartOverIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.RepeatIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.LoopOnIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.LoopOffIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ShuffleOnIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.ShuffleOffIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.FallbackIntent",
+          "samples": []
+        }
       ],
-      "types": []
+      "types": [
+        {
+          "name": "PRAYER_NAME",
+          "values": [
+            {
+              "id": "FAJR",
+              "name": {
+                "value": "fajr",
+                "synonyms": [
+                  "fajar",
+                  "fajir"
+                ]
+              }
+            },
+            {
+              "id": "ZUHR",
+              "name": {
+                "value": "zuhr",
+                "synonyms": [
+                  "dhuhr",
+                  "zuhur",
+                  "zohor",
+                  "zuhoor",
+                  "zuhuor"
+                ]
+              }
+            },
+            {
+              "id": "ASR",
+              "name": {
+                "value": "asr",
+                "synonyms": [
+                  "asar",
+                  "asor"
+                ]
+              }
+            },
+            {
+              "id": "MAGHRIB",
+              "name": {
+                "value": "maghrib",
+                "synonyms": [
+                  "magrib",
+                  "maghrib prayer"
+                ]
+              }
+            },
+            {
+              "id": "ISHA",
+              "name": {
+                "value": "isha",
+                "synonyms": [
+                  "esha",
+                  "ishaa"
+                ]
+              }
+            }
+          ]
+        }
+      ]
     }
   }
 }
