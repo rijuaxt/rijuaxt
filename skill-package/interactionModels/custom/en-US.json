@@ -1,0 +1,29 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "my athan",
+      "intents": [
+        {
+          "name": "PlayAthanIntent",
+          "slots": [],
+          "samples": ["play athan", "play the athan", "play adhan", "start the athan"]
+        },
+        {"name": "AMAZON.CancelIntent", "samples": []},
+        {"name": "AMAZON.HelpIntent", "samples": []},
+        {"name": "AMAZON.StopIntent", "samples": []},
+        {"name": "AMAZON.PauseIntent", "samples": []},
+        {"name": "AMAZON.ResumeIntent", "samples": []},
+        {"name": "AMAZON.NextIntent", "samples": []},
+        {"name": "AMAZON.PreviousIntent", "samples": []},
+        {"name": "AMAZON.StartOverIntent", "samples": []},
+        {"name": "AMAZON.RepeatIntent", "samples": []},
+        {"name": "AMAZON.LoopOnIntent", "samples": []},
+        {"name": "AMAZON.LoopOffIntent", "samples": []},
+        {"name": "AMAZON.ShuffleOnIntent", "samples": []},
+        {"name": "AMAZON.ShuffleOffIntent", "samples": []},
+        {"name": "AMAZON.FallbackIntent", "samples": []}
+      ],
+      "types": []
+    }
+  }
+}
