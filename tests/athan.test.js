@@ -148,3 +148,37 @@ test('playback notifications never speak, restart or loop the recording', async 
         assert.deepEqual(await handler(event(`AudioPlayer.${type}`)), { version: '1.0', response: {} });
     }
 });
+
+test('playback failure and exception callbacks never restart or speak', async () => {
+    for (const type of ['AudioPlayer.PlaybackFailed', 'System.ExceptionEncountered', 'SessionEndedRequest']) {
+        const result = await handler(event(type));
+        assert.deepEqual(result, { version: '1.0', response: {} });
+    }
+});
+
+test('Echo playback controller buttons play, restart, pause and stop correctly', async () => {
+    assertFullRecording(await handler(event('PlaybackController.PlayCommandIssued')));
+    assertFullRecording(await handler(event('PlaybackController.PreviousCommandIssued')));
+    for (const type of ['PlaybackController.PauseCommandIssued', 'PlaybackController.NextCommandIssued']) {
+        const result = await handler(event(type));
+        assert.deepEqual(result.response.directives, [{ type: 'AudioPlayer.Stop' }]);
+    }
+});
+
+test('unusable and insecure streaming URLs are rejected', async () => {
+    for (const url of [
+        'http://media.test/athan.mp3',
+        'https://example.com/athan.mp3',
+        'https://name:password@media.test/athan.mp3',
+        'https://media.test:8443/athan.mp3',
+        'not an audio URL'
+    ]) {
+        process.env.ATHAN_AUDIO_URL = url;
+        const result = await handler(event('LaunchRequest'));
+        assert.equal(result.response.directives, undefined);
+        assert.match(result.response.outputSpeech.text, /audio link configured/);
+    }
+    process.env.ATHAN_AUDIO_URL = '  ' + audioUrl + '  ';
+    assertFullRecording(await handler(event('LaunchRequest')));
+    process.env.ATHAN_AUDIO_URL = audioUrl;
+});
