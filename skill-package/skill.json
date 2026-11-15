@@ -1,0 +1,38 @@
+{
+  "manifest": {
+    "apis": {
+      "custom": {
+        "endpoint": {
+          "uri": ""
+        },
+        "interfaces": [
+          {
+            "type": "AUDIO_PLAYER"
+          }
+        ]
+      }
+    },
+    "manifestVersion": "1.0",
+    "publishingInformation": {
+      "category": "MUSIC_AND_AUDIO_ACCESSORIES",
+      "distributionCountries": [],
+      "isAvailableWorldwide": true,
+      "locales": {
+        "en-US": {
+          "description": "Play one complete Athan recording on an Echo. Fixed playback times can be set and changed in Alexa Routines.",
+          "examplePhrases": [
+            "Alexa, open my athan",
+            "Alexa, ask my athan to play athan"
+          ],
+          "keywords": [
+            "athan",
+            "adhan"
+          ],
+          "name": "My Athan",
+          "summary": "Play your complete Athan recording."
+        }
+      },
+      "testingInstructions": "Configure AUDIO_URL in lambda/index.js with a permanent direct HTTPS audio URL. Deploy and enable Development testing. Test launch, pause, resume, stop, and a full recording on an Echo. No audio recording is included."
+    }
+  }
+}
