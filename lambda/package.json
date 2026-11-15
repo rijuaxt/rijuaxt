@@ -1,0 +1,8 @@
+{
+  "name": "my-athan",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Single-recording Alexa Athan player",
+  "main": "index.js",
+  "dependencies": {}
+}
