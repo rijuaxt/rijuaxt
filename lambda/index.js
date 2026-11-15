@@ -80,7 +80,7 @@ function hasAudioPlayer(event) {
 }
 
 function getAudioUrl() {
-    const value = process.env.ATHAN_AUDIO_URL || AUDIO_URL;
+    const value = (process.env.ATHAN_AUDIO_URL || '').trim() || AUDIO_URL.trim();
     let url;
     try {
         url = new URL(value);
