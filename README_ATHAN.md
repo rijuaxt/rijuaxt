@@ -61,7 +61,7 @@ For a fresh import, use the same GitHub link above and complete the audio and de
 
 ## Local checks
 
-Run `npm test --prefix lambda` with Node.js 18 or later. The checks cover prayer names and aliases, invalid names, settings guidance, and full-recording playback controls. Actual speech recognition, audio delivery, and routine scheduling still need testing on an Echo.
+Run `npm test --prefix lambda` with Node.js 18 or later. The 13 checks cover prayer names and aliases, invalid names, settings guidance, configuration validation, and full-recording playback controls. Actual speech recognition, audio delivery, and routine scheduling still need testing on an Echo.
 
 ## Status
 
